@@ -7,6 +7,9 @@ import android.view.View
 import com.vssoft.necotut.R
 import com.vssoft.necotut.databinding.ActivityMainBinding
 import com.vssoft.necotut.db.MainDataBase
+import com.vssoft.necotut.db.NoteAdapter
+import com.vssoft.necotut.fragments.FragmentManager
+import com.vssoft.necotut.fragments.NoteFragment
 
 
 // cntrl alt l
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.notes -> {
-                    Log.d("MyLog", "notes")
+                    FragmentManager.setFragment(NoteFragment.newInstance(),this)
                 }
 
                 R.id.shop_list -> {
