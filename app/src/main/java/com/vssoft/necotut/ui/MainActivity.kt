@@ -8,6 +8,8 @@ import com.vssoft.necotut.R
 import com.vssoft.necotut.databinding.ActivityMainBinding
 import com.vssoft.necotut.db.MainDataBase
 
+
+// cntrl alt l
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
