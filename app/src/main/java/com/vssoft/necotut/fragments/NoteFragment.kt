@@ -1,16 +1,22 @@
 package com.vssoft.necotut.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.vssoft.necotut.R
+import androidx.fragment.app.activityViewModels
 import com.vssoft.necotut.databinding.FragmentNoteBinding
+import com.vssoft.necotut.db.MainViewModel
+import com.vssoft.necotut.ui.MainApp
 
 
 class NoteFragment : BaseFragment() {
     private lateinit var binding: FragmentNoteBinding
+
+    private val mainViewModel:MainViewModel by activityViewModels{
+        MainViewModel.MainViewModelFactory((context?.applicationContext as MainApp).database)
+    }
     override fun onClickNew() {
         TODO("Not yet implemented")
     }
