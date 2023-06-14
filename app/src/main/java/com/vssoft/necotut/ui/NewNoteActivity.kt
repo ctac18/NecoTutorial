@@ -9,7 +9,11 @@ import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import com.vssoft.necotut.R
 import com.vssoft.necotut.databinding.ActivityNewNoteBinding
+import com.vssoft.necotut.entities.NoteItem
 import com.vssoft.necotut.fragments.NoteFragment
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class NewNoteActivity : AppCompatActivity() {
     private lateinit var binding:ActivityNewNoteBinding
@@ -37,8 +41,7 @@ class NewNoteActivity : AppCompatActivity() {
     }
     private fun setMainResult(){
         val i = Intent().apply {
-            putExtra(NoteFragment.TITLE_KEY, binding.edTitle.text.toString())
-            putExtra(NoteFragment.DESC_KEY,binding.edDescription.text.toString())
+            putExtra(NoteFragment.NEW_NOTE_KEY, createNewNote())
         }
         setResult(RESULT_OK,i)
         finish()
@@ -46,5 +49,19 @@ class NewNoteActivity : AppCompatActivity() {
     private fun actionBarSettings(){
         val ab = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun getCurrentTime(): String{
+        val formater = SimpleDateFormat("hh:mm:ss - yyyy/MM/dd", Locale.getDefault())
+        return formater.format(Calendar.getInstance().time)
+    }
+    private fun createNewNote():NoteItem{
+        return NoteItem(
+            null,
+            binding.edTitle.text.toString(),
+            binding.edDescription.text.toString(),
+            getCurrentTime(),
+            ""
+        )
     }
 }

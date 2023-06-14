@@ -11,8 +11,11 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.vssoft.necotut.databinding.FragmentNoteBinding
 import com.vssoft.necotut.db.MainViewModel
+import com.vssoft.necotut.db.NoteAdapter
+import com.vssoft.necotut.entities.NoteItem
 import com.vssoft.necotut.ui.MainApp
 import com.vssoft.necotut.ui.NewNoteActivity
 
@@ -20,6 +23,7 @@ import com.vssoft.necotut.ui.NewNoteActivity
 class NoteFragment : BaseFragment() {
     private lateinit var binding: FragmentNoteBinding
     private lateinit var editLauncher: ActivityResultLauncher<Intent>
+    private lateinit var adapter: NoteAdapter
 
     private val mainViewModel:MainViewModel by activityViewModels{
         MainViewModel.MainViewModelFactory((context?.applicationContext as MainApp).database)
@@ -32,6 +36,8 @@ class NoteFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         onEditResult()
     }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,18 +46,33 @@ class NoteFragment : BaseFragment() {
         return binding.root
     }
 
+    // Инит ресайклера когда вске нарисовано
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRcView()
+        observer()
+    }
+    private fun initRcView() = with(binding){
+        rcViewNote.layoutManager = LinearLayoutManager(activity)
+        adapter = NoteAdapter()
+        rcViewNote.adapter = adapter
+    }
+    private fun observer(){
+        mainViewModel.allNotes.observe(viewLifecycleOwner,{
+            adapter.submitList(it)
+        })
+    }
     private fun onEditResult(){
         editLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if(it.resultCode == Activity.RESULT_OK){
-                Log.d("MyLog","title: ${it.data?.getStringExtra(TITLE_KEY)}")
-                Log.d("MyLog","description: ${it.data?.getStringExtra(DESC_KEY)}")
+
+                mainViewModel.intsertNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
             }
         }
     }
 
     companion object {
-        const val TITLE_KEY = "title_key"
-        const val DESC_KEY = "discription_key"
+        const val NEW_NOTE_KEY = "note_key"
         @JvmStatic
         fun newInstance() = NoteFragment()
     }

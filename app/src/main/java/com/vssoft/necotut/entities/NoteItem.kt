@@ -3,6 +3,7 @@ package com.vssoft.necotut.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity("noteList")
 data class NoteItem(
@@ -16,4 +17,4 @@ data class NoteItem(
     val time:String,
     @ColumnInfo("category")
     val category:String
-)
+): Serializable
