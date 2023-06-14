@@ -19,13 +19,11 @@ abstract class MainDataBase:RoomDatabase() {
         var INSTANCE: MainDataBase? = null
         fun getDataBase(context:Context): MainDataBase{
             return INSTANCE?: synchronized(this){
-                Log.d("MyLog","im bifnim!")
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MainDataBase::class.java,
                     "shopping_list.db"
                 ).build()
-                Log.d("MyLog","im yoce!")
                 INSTANCE = instance
                 instance
             }

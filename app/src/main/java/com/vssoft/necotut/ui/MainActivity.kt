@@ -23,9 +23,6 @@ class MainActivity : AppCompatActivity() {
         setBottomNavListener()
 
         val a = MainDataBase.getDataBase(this)
-        Log.d("MyLog", "INSTANCE = ${MainDataBase.INSTANCE}")
-        val b = MainDataBase.getDataBase(this)
-        Log.d("MyLog", "INSTANCE = ${MainDataBase.INSTANCE}")
 
     }
 
@@ -45,6 +42,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.new_item -> {
+                    FragmentManager.currentFrag?.onClickNew()
                     Log.d("MyLog", "New")
                 }
             }
